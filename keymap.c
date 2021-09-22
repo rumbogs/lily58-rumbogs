@@ -55,13 +55,14 @@ enum layer_number {
 #define ANIM_SIZE 512
 
 char     wpm_str[10];
+char     wpm_str2[10];
+char     wpm_str3[10];
 uint32_t anim_timer         = 0;
 uint32_t anim_sleep         = 0;
 uint8_t  current_idle_frame = 0;
 uint8_t  current_tap_frame  = 0;
 
 static long int oled_timeout = OLED_TIMEOUT;  // 10 minutes
-
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 	/* QWERTY
@@ -128,7 +129,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 		KC_TRNS,  KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_TRNS, KC_TRNS, KC_HOME, KC_PGDN, KC_PGUP, KC_END,  KC_F12,  KC_INS, 
 		                            KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS, KC_TRNS
 	),
-	/* RAISE
+	/* ADJUST
 	 * ,---------------------------------------------.                     ,-------------------------------------------.
 	 * |          |      |      |      |      |      |                     |      |      |      |      |      |        |
 	 * |----------+------+------+------+------+------|                     |------+------+------+------+------+--------|
@@ -165,8 +166,7 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 }
 
 // Domantas Petrauskas - https://github.com/qmk/qmk_firmware/blob/master/keyboards/lily58/keymaps/domnantas/keymap.c
-static void render_bongo_cat(void) {
-
+static void render_bongo_cat(void) {    
     // Idle animation
     static const char PROGMEM idle[IDLE_FRAMES][ANIM_SIZE] = {
 
@@ -222,7 +222,7 @@ static void render_bongo_cat(void) {
         }
     }
 
-    if (get_current_wpm() != 000) {
+    if (get_current_wpm() != 0) {
         oled_on();
 
         if (timer_elapsed32(anim_timer) > ANIM_FRAME_DURATION) {
@@ -246,7 +246,7 @@ static void render_bongo_cat(void) {
 static void render_status(void) {
     // WPM
     oled_write_ln_P(PSTR("wpm"), false);
-    sprintf(wpm_str, "%03d", get_current_wpm());
+    sprintf(wpm_str, "%01d", get_current_wpm());
     oled_write_ln(wpm_str, false);
     oled_write_ln_P(PSTR(""), false);
 
@@ -267,11 +267,6 @@ static void render_status(void) {
         default:
             oled_write_ln_P(PSTR("error"), false);
     }
-
-    led_t led_state = host_keyboard_led_state();
-    oled_write_ln_P(PSTR(""), false);
-    oled_write_ln_P(PSTR(""), false);
-    oled_write_ln_P(PSTR("caps"), led_state.caps_lock);
 }
 
 void oled_task_user(void) {
