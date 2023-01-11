@@ -29,3 +29,9 @@ SLEEP_LED_ENABLE = no    # Breathing sleep LED during USB suspend
         # ./lib/mode_icon_reader.c \
         # ./lib/host_led_state_reader.c \
         # ./lib/timelogger.c \
+		#
+
+DEBOUNCE_TYPE = sym_eager_pk
+
+# optimise size
+EXTRAFLAGS += -flto

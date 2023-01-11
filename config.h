@@ -31,6 +31,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define TAPPING_FORCE_HOLD
 #define TAPPING_TERM 200
 
+// For keyboard chattering
+#undef DEBOUNCE
+#define DEBOUNCE 50
+
 // #undef RGBLED_NUM
 // #define RGBLIGHT_ANIMATIONS
 // #define RGBLED_NUM 27
@@ -48,3 +52,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define RGBLIGHT_ANIMATIONS
 #define RGBLIGHT_SLEEP
 */
+
+// For size optimisation 'EXTRAFLAGS += -flto' doesn't work with these, so we need to disable these
+#define NO_ACTION_MACRO
+#define NO_ACTION_FUNCTION
